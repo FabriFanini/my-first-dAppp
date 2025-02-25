@@ -1,7 +1,7 @@
 // src/App.tsx
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './components/home';
-import AdminPanel from './components/AdminPanel';
+import AdminPanel from './components/adminPanel';
 
 function App() {
   return (
