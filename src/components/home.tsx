@@ -30,7 +30,7 @@ const Home: React.FC = () => {
     const contract = await getContract();
     if (contract) {
       try {
-        const avail = await contract.getTokensAvailables();
+        const avail = await contract.getAvailablesTokens();
         // Convertir de la unidad mínima (18 decimales) a un valor legible
         setAvailableTokens(ethers.formatUnits(avail, 18));
       } catch (error) {
