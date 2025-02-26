@@ -1,50 +1,50 @@
-# React + TypeScript + Vite
+# F20 dApp
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A basic dApp created as a learning exercise in the blockchain world. This application allows users to purchase tokens from an ERC20 contract (called F20) and offers an exclusive administrative panel for the contract owner, which allows minting tokens, changing the price, and withdrawing funds.
 
-Currently, two official plugins are available:
+## Description
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This dApp interacts with a smart contract deployed on the **Sepolia** test network. The project is divided into two parts:
 
-## Expanding the ESLint configuration
+- **Home:**  
+  - Allows users to connect their wallet (MetaMask).  
+  - Displays the tokens available for sale, the current price per token, and the user's token balance.  
+  - Enables token purchases by sending ETH.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Admin Panel:**  
+  - Available only to the contract owner.  
+  - Administrative functions include:
+    - **Mint Tokens:** Allows the administrator to mint new tokens to the contract.
+    - **Change Price:** Allows updating the token sale price.
+    - **Withdraw Funds:** Allows the administrator to withdraw the funds accumulated in the contract.
 
-- Configure the top-level `parserOptions` property like this:
+## Features
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **MetaMask Integration:** Connects the user's wallet via MetaMask.
+- **Transparent Transactions:** All transactions can be publicly verified on Sepolia Etherscan.
+- **Split Interface:**  
+  - A client interface (Home).  
+  - An administrative panel for the owner (Admin Panel).
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Technologies Used
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- **Frontend:** React, TypeScript, Vite, CSS Modules.
+- **Smart Contract:** Solidity, utilizing OpenZeppelin libraries (ERC20 and Ownable).
+- **Blockchain:** Sepolia Testnet.
+- **Web3:** Ethers.js to interact with the contract.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) installed.
+- [MetaMask](https://metamask.io/) installed in your browser.
+- Sepolia ETH (you can obtain it from a faucet such as [Sepolia Faucet](https://sepoliafaucet.com/)).
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <REPOSITORY_URL>
+   cd my-dapp
