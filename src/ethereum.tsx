@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import F20Abi from './abi/F20Abi.json';
 
 // Reemplaza con la dirección real de tu contrato en Sepolia
-const contractAddress = '0x631E86483Aed84399a3E8Efa9D5167EefaB122fB';
+const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
 
 export async function connectWallet(): Promise<ethers.BrowserProvider | null> {
   if (!window.ethereum) {
