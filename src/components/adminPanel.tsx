@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { getContract, connectWallet } from '../ethereum';
 import { ethers } from 'ethers';
+import styles from './adminPanel.module.css';
 //import { useNavigate } from 'react-router-dom';
 
 const AdminPanel: React.FC = () => {
@@ -115,49 +116,72 @@ const AdminPanel: React.FC = () => {
   }, [walletConnected, handleConnectWallet]);
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Panel de Administración</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Panel de Administración</h1>
       {walletConnected ? (
         <>
-          <p>Wallet conectada: {walletAddress}</p>
-          {isOwner ? (
-            <>
-              <h2>Funciones Administrativas</h2>
-              <div style={{ marginBottom: '20px' }}>
+          <div className={styles.walletInfo}>
+            <p>Wallet conectada: {walletAddress}</p>
+            {isOwner ? (
+              <p>Acceso administrativo habilitado</p>
+            ) : (
+              <p style={{ color: 'red' }}>Acceso denegado: no eres el owner del contrato</p>
+            )}
+          </div>
+          {isOwner && (
+            <div className={styles.adminSection}>
+              {/* Tarjeta 1: Mintear Tokens */}
+              <div className={styles.section}>
                 <h3>Mintear Tokens</h3>
                 <input
                   type="number"
                   placeholder="Cantidad a mintear"
                   value={mintAmount}
                   onChange={(e) => setMintAmount(e.target.value)}
+                  className={styles.inputField}
                 />
-                <button onClick={handleMintTokens} disabled={loading}>
+                <button
+                  onClick={handleMintTokens}
+                  className={styles.primaryButton}
+                  disabled={loading}
+                >
                   {loading ? 'Procesando...' : 'Mintear'}
                 </button>
               </div>
-              <div style={{ marginBottom: '20px' }}>
+
+              {/* Tarjeta 2: Cambiar Precio */}
+              <div className={styles.section}>
                 <h3>Cambiar Precio de Token</h3>
                 <input
                   type="number"
                   placeholder="Nuevo precio (ETH)"
                   value={newPrice}
                   onChange={(e) => setNewPrice(e.target.value)}
+                  className={styles.inputField}
                 />
-                <button onClick={handleChangePrice} disabled={loading}>
+                <button
+                  onClick={handleChangePrice}
+                  className={styles.primaryButton}
+                  disabled={loading}
+                >
                   {loading ? 'Procesando...' : 'Actualizar Precio'}
                 </button>
               </div>
-              <div style={{ marginBottom: '20px' }}>
+
+              {/* Tarjeta 3: Retirar Fondos */}
+              <div className={styles.section}>
                 <h3>Retirar Fondos</h3>
-                <button onClick={handleWithdraw} disabled={loading}>
+                <button
+                  onClick={handleWithdraw}
+                  className={styles.primaryButton}
+                  disabled={loading}
+                >
                   {loading ? 'Procesando...' : 'Retirar'}
                 </button>
               </div>
-            </>
-          ) : (
-            <p style={{ color: 'red' }}>Acceso denegado: no eres el owner del contrato</p>
+            </div>
           )}
-          {message && <p>{message}</p>}
+          {message && <p className={styles.message}>{message}</p>}
         </>
       ) : (
         <p>Conectando wallet...</p>

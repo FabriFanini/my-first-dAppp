@@ -1,0 +1,110 @@
+/* AdminPanel.module.css */
+
+/* Contenedor principal */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0px auto;
+    width: 80%;
+    max-width: 1000px;
+    min-height: 70vh;
+    background-color: #1c1c1c;
+    border-radius: 8px;
+    padding: 40px;
+    color: #ffffff;
+  }
+  
+  /* Título principal */
+  .title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  /* Información de wallet */
+  .walletInfo {
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  /* Mensaje de estado (éxito/error) */
+  .message {
+    margin-top: 1rem;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  /* Sección general de administración con grid */
+  .adminSection {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px; /* Espacio entre tarjetas */
+    width: 100%;
+  }
+  
+  /* Cada “tarjeta” */
+  .section {
+    background-color: #2c2c2c;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Sombra para efecto de tarjeta */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Título de la sección */
+  .section h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  
+  /* Input */
+  .inputField {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    width: 80%;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    outline: none;
+  }
+  
+  /* Botón principal */
+  .primaryButton {
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 24px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    width: 40%;
+    text-align: center;
+  }
+  
+  .primaryButton:hover {
+    background-color: #27ae60;
+  }
+  
+  /* Ajustes de estilo para pantallas pequeñas */
+  @media (max-width: 600px) {
+    .container {
+      width: 90%;
+      padding: 20px;
+      min-height: auto;
+    }
+  
+    .title {
+      font-size: 1.8rem;
+    }
+  
+    .section h3 {
+      font-size: 1.1rem;
+    }
+  }
+  

@@ -2,17 +2,18 @@
 import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { connectWallet, getContract } from '../ethereum';
+import styles from './Home.module.css';
 
 const Home: React.FC = () => {
   const [walletConnected, setWalletConnected] = useState<boolean>(false);
   const [walletAddress, setWalletAddress] = useState<string>('');
   const [availableTokens, setAvailableTokens] = useState<string>('0');
-  const [purchaseAmount, setPurchaseAmount] = useState<string>(''); // cantidad en tokens (string legible)
-  const [price, setPrice] = useState<string>('0'); // precio por token en ETH (como string)
+  const [purchaseAmount, setPurchaseAmount] = useState<string>('');
+  const [price, setPrice] = useState<string>('0');
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
 
-  // Conectar la wallet y obtener información inicial
+  // Conecta la wallet y obtiene información inicial
   const handleConnectWallet = async () => {
     const provider = await connectWallet();
     if (provider) {
@@ -25,13 +26,12 @@ const Home: React.FC = () => {
     }
   };
 
-  // Consulta la cantidad de tokens disponibles (pre-minted en el contrato)
+  // Consulta la cantidad de tokens disponibles en el contrato
   const fetchAvailableTokens = async () => {
     const contract = await getContract();
     if (contract) {
       try {
         const avail = await contract.getAvailablesTokens();
-        // Convertir de la unidad mínima (18 decimales) a un valor legible
         setAvailableTokens(ethers.formatUnits(avail, 18));
       } catch (error) {
         console.error('Error al obtener tokens disponibles:', error);
@@ -44,9 +44,7 @@ const Home: React.FC = () => {
     const contract = await getContract();
     if (contract) {
       try {
-        // Se asume que tu contrato tiene una función 'price' que retorna el precio (uint256)
         const p = await contract.price();
-        // Formatea el precio a ETH (ya que priceF20 se define en ether)
         setPrice(ethers.formatUnits(p, 'ether'));
       } catch (error) {
         console.error('Error al obtener el precio:', error);
@@ -64,11 +62,10 @@ const Home: React.FC = () => {
       if (contract) {
         // Convierte la cantidad ingresada a unidades mínimas (18 decimales)
         const tokensToBuy = ethers.parseUnits(purchaseAmount, 18);
-        // Obtiene el precio actual en BigInt (Ethers v6 usa BigInt para estos valores)
         const pricePerToken = await contract.price();
-        // Calcula el costo total en wei
-        const totalPrice = tokensToBuy * pricePerToken;
-        // Llama a la función de compra enviando el Ether correspondiente
+        // Ajusta el cálculo: totalPrice = (tokensToBuy * pricePerToken) / 10^18
+        const totalPrice = (tokensToBuy * pricePerToken) / BigInt(10 ** 18);
+
         const tx = await contract.buyF20(tokensToBuy, { value: totalPrice });
         await tx.wait();
         setMessage('Compra exitosa');
@@ -82,7 +79,6 @@ const Home: React.FC = () => {
     }
   };
 
-  // Cuando la wallet esté conectada, se consulta la información
   useEffect(() => {
     if (walletConnected) {
       fetchAvailableTokens();
@@ -91,28 +87,37 @@ const Home: React.FC = () => {
   }, [walletConnected]);
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Mi dApp de Tokens</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>dApp de Tokens F20</h1>
       {!walletConnected ? (
-        <button onClick={handleConnectWallet}>Conectar Wallet</button>
+        <button className={styles.primaryButton} onClick={handleConnectWallet}>
+          Conectar Wallet
+        </button>
       ) : (
-        <div>
-          <p>Wallet conectada: {walletAddress}</p>
-          <p>Tokens disponibles: {availableTokens}</p>
-          <p>Precio por token: {price} ETH</p>
-          <div>
+        <>
+          <div className={styles.walletInfo}>
+            <p>Wallet conectada: {walletAddress}</p>
+            <p>Tokens disponibles: {availableTokens}</p>
+            <p>Precio por token: {price} ETH</p>
+          </div>
+          <div className={styles.purchaseSection}>
             <input
               type="number"
               placeholder="Cantidad a comprar"
               value={purchaseAmount}
               onChange={(e) => setPurchaseAmount(e.target.value)}
+              className={styles.inputNumber}
             />
-            <button onClick={handleBuyTokens} disabled={loading}>
+            <button
+              onClick={handleBuyTokens}
+              className={styles.primaryButton}
+              disabled={loading}
+            >
               {loading ? 'Procesando...' : 'Comprar Tokens'}
             </button>
           </div>
-          {message && <p>{message}</p>}
-        </div>
+          {message && <p className={styles.message}>{message}</p>}
+        </>
       )}
     </div>
   );
